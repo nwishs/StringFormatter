@@ -34,11 +34,19 @@ namespace PointsBet_Backend_Online_Code_Test
             stopwatch.Restart();
 
             string cssLinq = ToCommaSeparatedStringLinq(stringArray, "'");
-            Console.WriteLine(css);
+            Console.WriteLine(cssLinq);
             stopwatch.Stop();
             ts = stopwatch.Elapsed;
             Console.WriteLine($"Time elapsed: {ts.TotalMilliseconds:F2} ms");
 
+            stopwatch.Restart();
+
+            string cssLinq = ToCommaSeparatedStringStringBuilder(stringArray, "'");
+            Console.WriteLine(cssLinq);
+            stopwatch.Stop();
+            ts = stopwatch.Elapsed;
+            Console.WriteLine($"Time elapsed: {ts.TotalMilliseconds:F2} ms");
+            
         }
 
         // More efficient but little complicated
@@ -53,6 +61,21 @@ namespace PointsBet_Backend_Online_Code_Test
         public static string ToCommaSeparatedStringLinq(string[] items, string quote="\"")
         {
             return string.Join(",", items.Select(item=> $"{quote}{item}{quote}"));
+        }
+
+        // very fast
+        public static string ToCommaSeparatedStringStringBuilder(string[] items, string quote="\"")
+        {
+            StringBuilder sb = new StringBuilder(items[0] ?? "");
+            for (int i = 1; i < items.Length; i++)
+            {
+                // sb.Append($"{quote}{items[i]}{quote},");
+                sb.Append(quote);
+                sb.Append(items[i]);
+                sb.Append(quote);
+                sb.Append(",");
+            }
+            return sb.ToString();
         }
     }
 }
